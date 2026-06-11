@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antigravity - Ticket Investigation Dashboard</title>
+    <!-- Google Fonts: Outfit (modern geometric sans-serif) & JetBrains Mono for logs/code -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <span class="logo-icon">▲</span>
+                <div class="brand-text">
+                    <h1>Antigravity</h1>
+                    <p>Ticket Investigator</p>
+                </div>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-tab="dashboard">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-label">Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="playground">
+                    <span class="nav-icon">💸</span>
+                    <span class="nav-label">Playground Transaksi</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="emails">
+                    <span class="nav-icon">✉️</span>
+                    <span class="nav-label">Simulator Email</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="logs">
+                    <span class="nav-icon">💻</span>
+                    <span class="nav-label">Log Microservices</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <p>Status: <span class="status-indicator online"></span> Online</p>
+                <p class="version">v1.0.0 (Prototype)</p>
+            </div>
+        </aside>
+
+        <!-- Main Content Panel -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="app-header">
+                <div class="header-title">
+                    <h2 id="page-title">Dashboard Utama</h2>
+                    <p id="page-desc">Memonitor tiket investigasi insiden dan mengelola investigasi otomatis berbasis AI Agent.</p>
+                </div>
+                <div class="system-time">
+                    <span class="clock-icon">🕒</span>
+                    <span id="current-time">14:42:00</span>
+                </div>
+            </header>
+
+            <!-- ================= TAB: DASHBOARD ================= -->
+            <section id="tab-dashboard" class="tab-pane active">
+                <!-- Stats Overview -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Total Tiket</h3>
+                            <p class="stat-value" id="stat-total-tickets">0</p>
+                        </div>
+                        <div class="stat-icon bg-blue">🎫</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Tiket Selesai</h3>
+                            <p class="stat-value" id="stat-resolved-tickets">0</p>
+                        </div>
+                        <div class="stat-icon bg-green">✅</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Transaksi Sukses</h3>
+                            <p class="stat-value" id="stat-success-tx">0</p>
+                        </div>
+                        <div class="stat-icon bg-emerald">💰</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Transaksi Diblokir</h3>
+                            <p class="stat-value text-red" id="stat-blocked-tx">0</p>
+                        </div>
+                        <div class="stat-icon bg-red">❌</div>
+                    </div>
+                </div>
+
+                <!-- Main Dashboard Columns -->
+                <div class="dashboard-columns">
+                    <!-- Left: Ticket Submission & List -->
+                    <div class="column col-7">
+                        <div class="card card-glass">
+                            <div class="card-header">
+                                <h3>Buat Tiket Baru (Pelaporan Masalah)</h3>
+                            </div>
+                            <form id="ticket-form" class="card-body form-grid">
+                                <div class="form-group col-4">
+                                    <label for="ticket-user-id">User ID / Nasabah</label>
+                                    <select id="ticket-user-id" required>
+                                        <option value="USR001">USR001 (Kasus Fraud Nyata)</option>
+                                        <option value="USR002" selected>USR002 (Kasus Terkena Bug)</option>
+                                        <option value="USR003">USR003 (Baru / Kosong)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-8">
+                                    <label for="ticket-desc">Deskripsi Masalah</label>
+                                    <input type="text" id="ticket-desc" placeholder="Contoh: Transfer saya diblokir padahal nominal kecil..." required value="Transfer ketiga ditolak padahal saldo saya cukup">
+                                </div>
+                                <div class="form-actions col-12">
+                                    <button type="submit" class="btn btn-primary">Buka Tiket</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="card card-glass mt-4">
+                            <div class="card-header flex-header">
+                                <h3>Daftar Tiket Aktif</h3>
+                                <button id="btn-refresh-tickets" class="btn btn-secondary btn-sm">🔄 Refresh</button>
+                            </div>
+                            <div class="card-body table-responsive">
+                                <table class="custom-table" id="tickets-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Ticket ID</th>
+                                            <th>User ID</th>
+                                            <th>Masalah</th>
+                                            <th>Status</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="5" class="text-center">Memuat tiket...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Live AI Investigation Console -->
+                    <div class="column col-5">
+                        <div class="card card-glass terminal-card">
+                            <div class="card-header flex-header">
+                                <h3>Konsol Live AI Investigator</h3>
+                                <span class="badge" id="investigator-status-badge">STANDBY</span>
+                            </div>
+                            <div class="card-body terminal-body" id="agent-console">
+                                <p class="system-msg">[SYSTEM] AI Agent Investigator siap.</p>
+                                <p class="system-msg">[SYSTEM] Menunggu pemicu investigasi dari tiket...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Report Detail Drawer modal (Hidden by default) -->
+                <div id="report-modal" class="modal-overlay">
+                    <div class="modal-container card-glass">
+                        <header class="modal-header">
+                            <h3 id="modal-report-title">Laporan Investigasi Insiden</h3>
+                            <button class="btn-close-modal" id="btn-close-modal">&times;</button>
+                        </header>
+                        <div class="modal-body">
+                            <div class="report-meta-grid">
+                                <div><strong>Report ID:</strong> <span id="md-report-id"></span></div>
+                                <div><strong>Ticket ID:</strong> <span id="md-ticket-id"></span></div>
+                                <div><strong>User ID:</strong> <span id="md-user-id"></span></div>
+                                <div><strong>Hasil Analisis:</strong> <span id="md-assigned-team" class="badge"></span></div>
+                            </div>
+                            
+                            <div class="section-divider"></div>
+                            
+                            <h4>1. Ringkasan Insiden</h4>
+                            <p id="md-summary" class="text-desc"></p>
+
+                            <h4>2. Analisis Akar Masalah (Root Cause)</h4>
+                            <p id="md-root-cause" class="text-desc text-monospace bg-dark-card p-3 rounded"></p>
+
+                            <h4>3. Bukti Kode yang Salah (Bug Evidence)</h4>
+                            <pre class="code-block"><code id="md-evidence-code"></code></pre>
+
+                            <h4>4. Bukti Log Transaksi Terkait</h4>
+                            <div class="log-container-small" id="md-evidence-logs"></div>
+
+                            <h4>5. Rekomendasi Perbaikan</h4>
+                            <p id="md-recommendation" class="text-desc text-monospace bg-dark-card p-3 rounded text-green-glow"></p>
+                        </div>
+                        <footer class="modal-footer">
+                            <a href="#" id="btn-download-pdf" class="btn btn-primary" target="_blank">📥 Unduh PDF Resmi</a>
+                            <button id="btn-close-modal-footer" class="btn btn-secondary">Tutup</button>
+                        </footer>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= TAB: PLAYGROUND ================= -->
+            <section id="tab-playground" class="tab-pane">
+                <div class="dashboard-columns">
+                    <!-- Left: Transaction Form -->
+                    <div class="column col-4">
+                        <div class="card card-glass">
+                            <div class="card-header">
+                                <h3>Kirim Transfer Dana Baru</h3>
+                            </div>
+                            <form id="playground-tx-form" class="card-body form-grid">
+                                <div class="form-group col-12">
+                                    <label for="tx-user-id">Pengirim (User ID)</label>
+                                    <select id="tx-user-id" required>
+                                        <option value="USR001">USR001 (Punya 2 transaksi sukses Rp1.000.000)</option>
+                                        <option value="USR002" selected>USR002 (Punya 2 transaksi sukses Rp50k & Rp75k)</option>
+                                        <option value="USR003">USR003 (Nasabah baru)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-12">
+                                    <label for="tx-amount">Nominal Transfer (Rupiah)</label>
+                                    <input type="number" id="tx-amount" placeholder="Jumlah transfer, misal: 100000" required value="100000">
+                                </div>
+                                <div class="form-group col-12">
+                                    <label for="tx-to">Rekening Penerima (User ID)</label>
+                                    <input type="text" id="tx-to" placeholder="Rekening tujuan" required value="USR999">
+                                </div>
+                                <div class="form-actions col-12">
+                                    <button type="submit" class="btn btn-primary btn-full">Kirim via Middleware</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="card card-glass mt-4 info-card">
+                            <div class="card-header">
+                                <h4>💡 Panduan Simulasi Bug</h4>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Kasus USR002 (Pemicu Bug):</strong></p>
+                                <ul>
+                                    <li>USR002 sudah punya 2 transaksi normal (Rp50.000 & Rp75.000).</li>
+                                    <li>Kirim transaksi ke-3 sebesar <strong>Rp100.000</strong>.</li>
+                                    <li>Transaksi ini <strong>diblokir secara otomatis</strong> oleh FRD App karena jumlah transaksi bernilai $\ge 3$.</li>
+                                    <li>Ini adalah <strong>BUG</strong>, karena polanya normal dan meningkat wajar, bukan lompatan drastis.</li>
+                                </ul>
+                                <p class="mt-2"><strong>Kasus USR001 (Fraud Sebenarnya):</strong></p>
+                                <ul>
+                                    <li>USR001 sudah punya 2 transaksi normal (Rp1.000.000 & Rp1.000.000).</li>
+                                    <li>Kirim transaksi ke-3 sebesar <strong>Rp100.000.000</strong>.</li>
+                                    <li>Transaksi ini <strong>seharusnya terblokir</strong> karena lompatan drastis (100x lipat).</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Live Logs & Transactions of Transfer App -->
+                    <div class="column col-8">
+                        <div class="card card-glass">
+                            <div class="card-header flex-header">
+                                <h3>Daftar Transaksi (Transfer App Logs)</h3>
+                                <button id="btn-refresh-tx" class="btn btn-secondary btn-sm">🔄 Refresh</button>
+                            </div>
+                            <div class="card-body table-responsive">
+                                <table class="custom-table" id="transactions-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Tx ID</th>
+                                            <th>User ID</th>
+                                            <th>Nominal</th>
+                                            <th>Penerima</th>
+                                            <th>Waktu</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="6" class="text-center">Memuat transaksi...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= TAB: EMAILS ================= -->
+            <section id="tab-emails" class="tab-pane">
+                <div class="dashboard-columns">
+                    <!-- Left: Email List -->
+                    <div class="column col-5">
+                        <div class="card card-glass">
+                            <div class="card-header flex-header">
+                                <h3>Kotak Keluar (Email Terkirim)</h3>
+                                <button id="btn-refresh-emails" class="btn btn-secondary btn-sm">🔄 Refresh</button>
+                            </div>
+                            <div class="card-body list-group" id="email-list">
+                                <p class="text-center p-4">Memuat data email simulator...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Email Detail Preview -->
+                    <div class="column col-7">
+                        <div class="card card-glass email-view-card">
+                            <div class="card-header">
+                                <h3>Detail Email Preview</h3>
+                            </div>
+                            <div class="card-body" id="email-preview-empty">
+                                <div class="empty-state">
+                                    <span class="empty-icon">✉️</span>
+                                    <p>Pilih email di sebelah kiri untuk melihat isinya.</p>
+                                </div>
+                            </div>
+                            <div class="card-body" id="email-preview-content" style="display: none;">
+                                <div class="email-headers">
+                                    <p><strong>From:</strong> <span id="em-from"></span></p>
+                                    <p><strong>To:</strong> <span id="em-to"></span></p>
+                                    <p><strong>Subject:</strong> <span id="em-subject"></span></p>
+                                    <p><strong>Date:</strong> <span id="em-date"></span></p>
+                                </div>
+                                <div class="section-divider"></div>
+                                <div class="email-body-text" id="em-body"></div>
+                                <div class="section-divider"></div>
+                                <div class="email-attachment">
+                                    <span class="attachment-icon">📎</span>
+                                    <div class="attachment-info">
+                                        <p class="attachment-name" id="em-pdf-name"></p>
+                                        <p class="attachment-size">Laporan PDF Terlampir</p>
+                                    </div>
+                                    <a href="#" id="em-pdf-link" class="btn btn-secondary btn-sm" target="_blank">Unduh</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= TAB: LOGS ================= -->
+            <section id="tab-logs" class="tab-pane">
+                <div class="logs-wrapper">
+                    <!-- Logs Tab Menu -->
+                    <div class="logs-tabs">
+                        <button class="log-tab-btn active" data-app="ticket">Ticket App (8000)</button>
+                        <button class="log-tab-btn" data-app="transfer">Transfer App (8001)</button>
+                        <button class="log-tab-btn" data-app="frd">FRD App (8002)</button>
+                        <button class="log-tab-btn" data-app="middleware">Middleware App (8003)</button>
+                    </div>
+
+                    <div class="card card-glass terminal-card mt-2">
+                        <div class="card-header flex-header">
+                            <h3 id="log-terminal-title">Log Ticket App (HTTP requests & events)</h3>
+                            <button id="btn-refresh-logs" class="btn btn-secondary btn-sm">🔄 Refresh Log</button>
+                        </div>
+                        <div class="card-body terminal-body" id="log-terminal-content">
+                            <p class="system-msg">[SYSTEM] Membaca log file...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+[
+  {
+    "email_id": "MSG-20260611081553",
+    "timestamp": "2026-06-11T08:15:53.657719+00:00",
+    "from": "ai-agent-investigator@bank.local",
+    "to": "frd-alerts@bank.local",
+    "subject": "[ALERT] Incident Investigation Report - RPT-20260611081553 (TKT-001)",
+    "body": "Hi FRD Team,\n\nAI Agent has completed the investigation for Ticket TKT-001 ('Transfer ketiga ditolak padahal saldo saya cukup').\n\nSummary:\nUser USR002 melaporkan: 'Transfer ketiga ditolak padahal saldo saya cukup'. Ditemukan bug pada FRD App: rule fraud salah konfigurasi. User memiliki 3 transaksi terakhir yang semuanya terblokir oleh fraud detection meskipun polanya normal.\n\nRoot Cause Analysis:\nFile: fraud_rule.py, fungsi is_fraud().\nKondisi `if len(transactions) >= 3` seharusnya ditambah validasi pola peningkatan nominal. Rule saat ini memblokir SEMUA user dengan >= 3 transaksi, tanpa memeriksa apakah nominal meningkat tajam.\n\nPlease find the detailed PDF investigation report attached.\n\nRegards,\nAntigravity AI Agent Investigator",
+    "pdf_filename": "RPT-20260611081553.pdf",
+    "pdf_path": "/Users/mitro/ticket-investigation-system/apps/ticket_app/output/RPT-20260611081553.pdf"
+  },
+  {
+    "email_id": "MSG-20260611081908",
+    "timestamp": "2026-06-11T08:19:08.576814+00:00",
+    "from": "ai-agent-investigator@bank.local",
+    "to": "frd-alerts@bank.local",
+    "subject": "[ALERT] Incident Investigation Report - RPT-20260611081908 (TKT-002)",
+    "body": "Hi FRD Team,\n\nAI Agent has completed the investigation for Ticket TKT-002 ('Transfer ketiga ditolak padahal saldo saya cukup').\n\nSummary:\nUser USR002 melaporkan: 'Transfer ketiga ditolak padahal saldo saya cukup'. Ditemukan bug pada FRD App: rule fraud salah konfigurasi. User memiliki 4 transaksi terakhir yang semuanya terblokir oleh fraud detection meskipun polanya normal.\n\nRoot Cause Analysis:\nFile: fraud_rule.py, fungsi is_fraud().\nKondisi `if len(transactions) >= 3` seharusnya ditambah validasi pola peningkatan nominal. Rule saat ini memblokir SEMUA user dengan >= 3 transaksi, tanpa memeriksa apakah nominal meningkat tajam.\n\nPlease find the detailed PDF investigation report attached.\n\nRegards,\nAntigravity AI Agent Investigator",
+    "pdf_filename": "RPT-20260611081908.pdf",
+    "pdf_path": "/Users/mitro/ticket-investigation-system/apps/ticket_app/output/RPT-20260611081908.pdf"
+  },
+  {
+    "email_id": "MSG-20260611082038",
+    "timestamp": "2026-06-11T08:20:38.285531+00:00",
+    "from": "ai-agent-investigator@bank.local",
+    "to": "frd-alerts@bank.local",
+    "subject": "[ALERT] Incident Investigation Report - RPT-20260611082038 (TKT-003)",
+    "body": "Hi FRD Team,\n\nAI Agent has completed the investigation for Ticket TKT-003 ('Transfer ketiga ditolak padahal saldo saya cukup').\n\nSummary:\nUser USR002 melaporkan: 'Transfer ketiga ditolak padahal saldo saya cukup'. Ditemukan bug pada FRD App: rule fraud salah konfigurasi. User memiliki 4 transaksi terakhir yang semuanya terblokir oleh fraud detection meskipun polanya normal.\n\nRoot Cause Analysis:\nFile: fraud_rule.py, fungsi is_fraud().\nKondisi `if len(transactions) >= 3` seharusnya ditambah validasi pola peningkatan nominal. Rule saat ini memblokir SEMUA user dengan >= 3 transaksi, tanpa memeriksa apakah nominal meningkat tajam.\n\nPlease find the detailed PDF investigation report attached.\n\nRegards,\nAntigravity AI Agent Investigator",
+    "pdf_filename": "RPT-20260611082038.pdf",
+    "pdf_path": "/Users/mitro/ticket-investigation-system/apps/ticket_app/output/RPT-20260611082038.pdf"
+  }
+]

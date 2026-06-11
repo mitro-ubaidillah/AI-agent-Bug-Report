@@ -1,0 +1,58 @@
+[2026-06-11T08:16:00.583664+00:00] --- START TRANSACTION PROCESS ---
+[2026-06-11T08:16:00.584060+00:00] Processing transfer request: user=USR002 amount=Rp250,000 to=USR008
+[2026-06-11T08:16:00.595800+00:00] Fetching transaction logs for user=USR002 from Transfer App...
+[2026-06-11T08:16:00.620268+00:00] Retrieved 3 previous transactions.
+[2026-06-11T08:16:00.620527+00:00] Forwarding full transaction history (4 items) to FRD App for analysis...
+[2026-06-11T08:16:00.634512+00:00] ERROR: Unexpected error: 500: Failed to check fraud from FRD App. Code: 422
+[2026-06-11T08:16:00.634886+00:00] --- END TRANSACTION PROCESS (FAILED) ---
+
+[2026-06-11T08:16:27.107968+00:00] --- START TRANSACTION PROCESS ---
+[2026-06-11T08:16:27.108380+00:00] Processing transfer request: user=USR002 amount=Rp250,000 to=USR008
+[2026-06-11T08:16:27.123490+00:00] Fetching transaction logs for user=USR002 from Transfer App...
+[2026-06-11T08:16:27.142571+00:00] Retrieved 3 previous transactions.
+[2026-06-11T08:16:27.142761+00:00] Forwarding full transaction history (4 items) to FRD App for analysis...
+[2026-06-11T08:16:27.157370+00:00] FRD Decision: is_fraud=True. Reason: 'Fraud terdeteksi: 4 transaksi dalam waktu dekat. Nominal: [75000, 100000, 250000.0]'. Final Status=BLOCKED
+[2026-06-11T08:16:27.157555+00:00] Committing transaction to Transfer App with status=blocked...
+[2026-06-11T08:16:27.162069+00:00] Transaction committed successfully. Tx ID: 7
+[2026-06-11T08:16:27.162393+00:00] --- END TRANSACTION PROCESS (SUCCESS) ---
+
+[2026-06-11T08:16:44.580156+00:00] --- START TRANSACTION PROCESS ---
+[2026-06-11T08:16:44.580506+00:00] Processing transfer request: user=USR003 amount=Rp120,000 to=USR009
+[2026-06-11T08:16:44.587838+00:00] Fetching transaction logs for user=USR003 from Transfer App...
+[2026-06-11T08:16:44.598349+00:00] Retrieved 0 previous transactions.
+[2026-06-11T08:16:44.598560+00:00] Forwarding full transaction history (1 items) to FRD App for analysis...
+[2026-06-11T08:16:44.605389+00:00] FRD Decision: is_fraud=False. Reason: 'Hanya 1 transaksi, tidak memenuhi threshold fraud.'. Final Status=SUCCESS
+[2026-06-11T08:16:44.605548+00:00] Committing transaction to Transfer App with status=success...
+[2026-06-11T08:16:44.608341+00:00] Transaction committed successfully. Tx ID: 8
+[2026-06-11T08:16:44.608456+00:00] --- END TRANSACTION PROCESS (SUCCESS) ---
+
+[2026-06-11T08:18:55.690941+00:00] --- START TRANSACTION PROCESS ---
+[2026-06-11T08:18:55.691203+00:00] Processing transfer request: user=USR001 amount=Rp100,000 to=USR999
+[2026-06-11T08:18:55.698046+00:00] Fetching transaction logs for user=USR001 from Transfer App...
+[2026-06-11T08:18:55.708067+00:00] Retrieved 3 previous transactions.
+[2026-06-11T08:18:55.708257+00:00] Forwarding full transaction history (4 items) to FRD App for analysis...
+[2026-06-11T08:18:55.718366+00:00] FRD Decision: is_fraud=True. Reason: 'Fraud terdeteksi: 4 transaksi dalam waktu dekat. Nominal: [1000000, 100000000, 100000.0]'. Final Status=BLOCKED
+[2026-06-11T08:18:55.718533+00:00] Committing transaction to Transfer App with status=blocked...
+[2026-06-11T08:18:55.721404+00:00] Transaction committed successfully. Tx ID: 9
+[2026-06-11T08:18:55.721505+00:00] --- END TRANSACTION PROCESS (SUCCESS) ---
+
+[2026-06-11T08:20:05.716072+00:00] --- START TRANSACTION PROCESS ---
+[2026-06-11T08:20:05.716595+00:00] Processing transfer request: user=USR003 amount=Rp100,000 to=USR999
+[2026-06-11T08:20:05.727511+00:00] Fetching transaction logs for user=USR003 from Transfer App...
+[2026-06-11T08:20:05.740513+00:00] Retrieved 1 previous transactions.
+[2026-06-11T08:20:05.741306+00:00] Forwarding full transaction history (2 items) to FRD App for analysis...
+[2026-06-11T08:20:05.749475+00:00] FRD Decision: is_fraud=False. Reason: 'Hanya 2 transaksi, tidak memenuhi threshold fraud.'. Final Status=SUCCESS
+[2026-06-11T08:20:05.749663+00:00] Committing transaction to Transfer App with status=success...
+[2026-06-11T08:20:05.752825+00:00] Transaction committed successfully. Tx ID: 10
+[2026-06-11T08:20:05.752982+00:00] --- END TRANSACTION PROCESS (SUCCESS) ---
+
+[2026-06-11T08:20:14.330269+00:00] --- START TRANSACTION PROCESS ---
+[2026-06-11T08:20:14.330552+00:00] Processing transfer request: user=USR001 amount=Rp1,000,000,000 to=USR999
+[2026-06-11T08:20:14.339236+00:00] Fetching transaction logs for user=USR001 from Transfer App...
+[2026-06-11T08:20:14.342817+00:00] Retrieved 4 previous transactions.
+[2026-06-11T08:20:14.343013+00:00] Forwarding full transaction history (5 items) to FRD App for analysis...
+[2026-06-11T08:20:14.346111+00:00] FRD Decision: is_fraud=True. Reason: 'Fraud terdeteksi: 5 transaksi dalam waktu dekat. Nominal: [100000000, 100000.0, 1000000000.0]'. Final Status=BLOCKED
+[2026-06-11T08:20:14.346294+00:00] Committing transaction to Transfer App with status=blocked...
+[2026-06-11T08:20:14.350211+00:00] Transaction committed successfully. Tx ID: 11
+[2026-06-11T08:20:14.350399+00:00] --- END TRANSACTION PROCESS (SUCCESS) ---
+
